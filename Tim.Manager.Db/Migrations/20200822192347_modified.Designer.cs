@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tim.Manager.Db.Data;
 
 namespace Tim.Manager.Db.Migrations
 {
     [DbContext(typeof(ManagerDbContext))]
-    partial class TimManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200822192347_modified")]
+    partial class modified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,7 +236,7 @@ namespace Tim.Manager.Db.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Modified")

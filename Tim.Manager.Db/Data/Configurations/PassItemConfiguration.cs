@@ -34,7 +34,12 @@ namespace Tim.Manager.Db.Data.Configurations
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("getdate()");
 
-            builder.Property(i => i.Discription)
+            builder.Property(i => i.Modified)
+                .HasColumnType("datetime2")
+                .ValueGeneratedOnUpdate()
+                .HasDefaultValueSql("getdate()");
+
+            builder.Property(i => i.Description)
                 .HasColumnType("nvarchar(max)");
 
             builder.HasIndex(i => new { i.UserId, i.Name })
