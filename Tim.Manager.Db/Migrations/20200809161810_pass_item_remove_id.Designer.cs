@@ -9,7 +9,7 @@ using Tim.Manager.Db.Data;
 
 namespace Tim.Manager.Db.Migrations
 {
-    [DbContext(typeof(TimManagerDbContext))]
+    [DbContext(typeof(ManagerDbContext))]
     [Migration("20200809161810_pass_item_remove_id")]
     partial class pass_item_remove_id
     {

@@ -5,11 +5,11 @@ using Tim.Manager.Db.Entities;
 
 namespace Tim.Manager.Db.Data
 {
-    public class TimManagerDbContext : IdentityDbContext
+    public class ManagerDbContext : IdentityDbContext
     {
         public virtual DbSet<PassItem> PassItems { get; set; }
 
-        public TimManagerDbContext(DbContextOptions<TimManagerDbContext> options)
+        public ManagerDbContext(DbContextOptions<ManagerDbContext> options)
             : base(options)
         {
         }

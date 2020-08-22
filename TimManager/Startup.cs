@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tim.Manager.Db.Data;
+using Tim.Manager.Db.Repositories.PassItems;
 
 namespace TimManager
 {
@@ -21,11 +22,17 @@ namespace TimManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TimManagerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ManagerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ManagerDbContext>();
+            registerRepositories(services);
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<TimManagerDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+        }
+
+        private void registerRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IPassItemRepository, PassItemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +59,11 @@ namespace TimManager
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "identity_area",
+                    areaName: "Identity",
+                    pattern: "Identity/{controller}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

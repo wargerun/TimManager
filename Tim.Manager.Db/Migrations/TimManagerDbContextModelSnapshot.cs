@@ -8,7 +8,7 @@ using Tim.Manager.Db.Data;
 
 namespace Tim.Manager.Db.Migrations
 {
-    [DbContext(typeof(TimManagerDbContext))]
+    [DbContext(typeof(ManagerDbContext))]
     partial class TimManagerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -9,7 +9,7 @@ using Tim.Manager.Db.Data;
 
 namespace Tim.Manager.Db.Migrations
 {
-    [DbContext(typeof(TimManagerDbContext))]
+    [DbContext(typeof(ManagerDbContext))]
     [Migration("20200809153345_CreateSchema")]
     partial class CreateSchema
     {
