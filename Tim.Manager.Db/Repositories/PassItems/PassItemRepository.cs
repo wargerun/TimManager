@@ -19,7 +19,12 @@ namespace Tim.Manager.Db.Repositories.PassItems
 
         public Task<PassItem> GetPassItemAsync(string userId, string name)
         {
-            return _context.PassItems.FindAsync(userId, name).AsTask();
+            return _context.PassItems.SingleOrDefaultAsync(p => p.UserId == userId && p.Name == name);
+        }
+
+        public Task<PassItem> GetPassItemAsync(int id)
+        {
+            return _context.PassItems.FindAsync(id).AsTask();
         }
 
         public IQueryable<PassItem> GetPassItems(string userId) => getPassItemsInternal(userId);
@@ -49,15 +54,30 @@ namespace Tim.Manager.Db.Repositories.PassItems
 
         public async Task UpdateAsync(PassItem newPassItem)
         {
-            await throwPassItemIfNotExistAsync(newPassItem.UserId, newPassItem.Name);
+            PassItem passItemDb = await GetPassItemAsync(newPassItem.Id);
+            
+            if (passItemDb is null)
+            {
+                throw new InvalidOperationException($"Pass Item не найлен");
+            }
 
-            PassItem passItemDb = await GetPassItemAsync(newPassItem.UserId, newPassItem.Name);
-            newPassItem.CopyTo(passItemDb);
+            passItemDb.Name = newPassItem.Name;
+            passItemDb.Uri = newPassItem.Uri;
+            passItemDb.UserName = newPassItem.UserName;
+            passItemDb.Description = newPassItem.Description;
+
+            if (!string.IsNullOrWhiteSpace(newPassItem.Password))
+            {
+                passItemDb.Password = newPassItem.Password;
+            }
+
             _context.PassItems.Update(passItemDb);
 
             await _context.SaveChangesAsync();
         }
 
-        public Task<bool> PassItemExistAsync(string userId, string name) => _context.PassItems.AnyAsync(e => e.UserId == userId && e.Name == name);
+        private Task<bool> PassItemExistAsync(string userId, string name) => _context.PassItems.AnyAsync(e => e.UserId == userId && e.Name == name);
+
+        private Task<bool> PassItemExistAsync(int id) => _context.PassItems.AnyAsync(e => e.Id == id);
     }
 }
