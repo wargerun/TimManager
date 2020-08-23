@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Tim.Manager.Db.Entities;
 using Tim.Manager.Db.Repositories.PassItems;
 using System;
+using System.Security.Authentication;
 
 namespace TimManager.Areas.Identity.Controllers.PassManager
 {
@@ -74,9 +75,9 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
 
         // GET: Identity/PassItems/Details/5
         [HttpGet]
-        public async Task<IActionResult> Details(string name)
+        public async Task<IActionResult> Details(int id)
         {
-            PassItem passItem = await getPassItem(name);
+            PassItem passItem = await getPassItem(id);
 
             if (passItem == null)
             {
@@ -88,9 +89,9 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
 
         // GET: Identity/PassItems/Edit/5
         [HttpGet]
-        public async Task<IActionResult> Edit(string name)
+        public async Task<IActionResult> Edit(int id)
         {
-            PassItem passItem = await getPassItem(name);
+            PassItem passItem = await getPassItem(id);
 
             if (passItem == null)
             {
@@ -100,16 +101,16 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
             return View(passItem);
         }
 
-        private async Task<PassItem> getPassItem(string name)
+        private async Task<PassItem> getPassItem(int id)
         {
-            if (name == null)
+            if (id == 0)
             {
                 return null;
             }
 
-            IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            PassItem passItem = await _passItemRepository.GetPassItemAsync(user.Id, name);
-            
+            throwIfNotAuthenticated();
+            PassItem passItem = await _passItemRepository.GetPassItemAsync(id);
+
             return passItem;
         }
 
@@ -121,25 +122,32 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
         public async Task<IActionResult> Edit(PassItem newPassItem)
         {
             ModelState.Remove(nameof(newPassItem.UserId));
+            ModelState.Remove(nameof(newPassItem.Password));
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-                    newPassItem.UserId = user.Id;
-                    newPassItem.User = user;
+                    throwIfNotAuthenticated();
 
-                    await _passItemRepository.UpdateAsync(newPassItem); 
-                    return RedirectToAction(nameof(Index));
+                    await _passItemRepository.UpdateAsync(newPassItem);
+                    return RedirectToAction(nameof(Details), new { id = newPassItem.Id });
                 }
                 catch (InvalidOperationException ex)
                 {
                     ModelState.AddModelError(ex.Data[PassItemRepository.ItemPropertyKey]?.ToString() ?? "", $"Unable to save changes. {ex.Message}.");
-                }         
+                }
             }
 
             return View(newPassItem);
+        }
+
+        private void throwIfNotAuthenticated()
+        {
+            if ((HttpContext.User == null) || !HttpContext.User.Identity.IsAuthenticated)
+            {
+                throw new AuthenticationException();
+            }
         }
     }
 }
