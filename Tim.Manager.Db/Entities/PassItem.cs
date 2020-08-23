@@ -29,6 +29,20 @@ namespace Tim.Manager.Db.Entities
         public DateTime? Modified { get; set; }
 
         public string Description { get; set; }
+
+
+        public void CopyTo(PassItem passItem)
+        {
+            if (passItem is null)
+            {
+                throw new ArgumentNullException(nameof(passItem));
+            }
+
+            passItem.Name = Name;
+            passItem.Password = Password;
+            passItem.Uri = Uri;
+            passItem.UserName = UserName;
+        }
     
         public virtual IdentityUser User { get; set; }
     }

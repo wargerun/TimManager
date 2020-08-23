@@ -2,11 +2,20 @@
 @model PassItem
 @inject UserManager<IdentityUser> UserManager
 
-@{ 
+@{
     ViewBag.Title = "Create";
 }
 
-<h4>PassItem</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">PassItem</li>
+
+        <li class="breadcrumb-item">
+            <a asp-action="Index">Back to List</a>
+        </li>
+    </ol>
+</nav>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -52,9 +61,4 @@
             </div>
         </form>
     </div>
-</div>
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

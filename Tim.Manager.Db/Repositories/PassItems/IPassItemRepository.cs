@@ -11,8 +11,7 @@ namespace Tim.Manager.Db.Repositories.PassItems
         Task InsertAsync(PassItem newPassItem);
 
         Task<PassItem> GetPassItemAsync(string userId, string name);
-        //void InsertCustomer(Customer customer);
-        //void DeleteCustomer(int customerId);
-        //void UpdateCustomer(Customer customer);
+
+        Task UpdateAsync(PassItem newPassItem);
     }
 }
