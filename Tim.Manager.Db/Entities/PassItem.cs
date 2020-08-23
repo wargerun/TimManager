@@ -7,6 +7,9 @@ namespace Tim.Manager.Db.Entities
     public class PassItem
     {
         [Required]
+        public int Id { get; set; }
+
+        [Required]
         [StringLength(450)]
         public string UserId { get; set; }
 
@@ -29,7 +32,7 @@ namespace Tim.Manager.Db.Entities
         public DateTime? Modified { get; set; }
 
         public string Description { get; set; }
-    
+                           
         public virtual IdentityUser User { get; set; }
     }
 }

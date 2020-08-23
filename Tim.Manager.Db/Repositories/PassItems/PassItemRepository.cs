@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Tim.Manager.Db.Data;
@@ -18,7 +19,12 @@ namespace Tim.Manager.Db.Repositories.PassItems
 
         public Task<PassItem> GetPassItemAsync(string userId, string name)
         {
-            return _context.PassItems.FindAsync(userId, name).AsTask();
+            return _context.PassItems.SingleOrDefaultAsync(p => p.UserId == userId && p.Name == name);
+        }
+
+        public Task<PassItem> GetPassItemAsync(int id)
+        {
+            return _context.PassItems.FindAsync(id).AsTask();
         }
 
         public IQueryable<PassItem> GetPassItems(string userId) => getPassItemsInternal(userId);
@@ -30,18 +36,53 @@ namespace Tim.Manager.Db.Repositories.PassItems
 
         public async Task InsertAsync(PassItem newPassItem)
         {
-            PassItem expectedNull = await GetPassItemAsync(newPassItem.UserId, newPassItem.Name);
+            await throwPassItemIfNotExistAsync(newPassItem.UserId, newPassItem.Name);
 
-            if (expectedNull != null)
-            {
-                var ex = new InvalidOperationException($"Pass Item с таким названием уже существует");
-                ex.Data[ItemPropertyKey] = nameof(newPassItem.Name);
-                throw ex;
-                
-            }                                                                                   
-                  
             _context.PassItems.Add(newPassItem);
             await _context.SaveChangesAsync();
         }
+
+        private async Task throwPassItemIfNotExistAsync(string userId, string name)
+        {
+            if (await PassItemExistAsync(userId, name))
+            {
+                var ex = new InvalidOperationException($"Pass Item с таким названием уже существует");
+                ex.Data[ItemPropertyKey] = nameof(name);
+                throw ex;
+            }
+        }
+
+        public async Task UpdateAsync(PassItem newPassItem)
+        {
+            PassItem passItemDb = await GetPassItemAsync(newPassItem.Id);
+            
+            if (passItemDb is null)
+            {
+                throw new InvalidOperationException($"Pass Item не найлен");
+            }
+
+            passItemDb.Name = newPassItem.Name;
+            passItemDb.Uri = newPassItem.Uri;
+            passItemDb.UserName = newPassItem.UserName;
+            passItemDb.Description = newPassItem.Description;
+
+            if (!string.IsNullOrWhiteSpace(newPassItem.Password))
+            {
+                passItemDb.Password = newPassItem.Password;
+            }
+
+            _context.PassItems.Update(passItemDb);
+
+            await _context.SaveChangesAsync();
+        } 
+
+        public async Task DeleteAsync(int id)
+        {
+            PassItem passItemDb = await GetPassItemAsync(id);
+            _context.PassItems.Remove(passItemDb);
+            await _context.SaveChangesAsync();
+        }
+
+        private Task<bool> PassItemExistAsync(string userId, string name) => _context.PassItems.AnyAsync(e => e.UserId == userId && e.Name == name);
     }
 }
