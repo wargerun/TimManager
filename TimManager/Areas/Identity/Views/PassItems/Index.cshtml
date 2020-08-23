@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<PassItem>
-@{ 
+@{
     ViewBag.Title = "Index";
 }
 
@@ -22,7 +22,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.ActionLink(item.Name, "Details", new { name = item.Name })</td>
                     <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Uri)</td>
                     <td>@Html.DisplayFor(modelItem => item.Created)</td>
