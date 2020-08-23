@@ -10,6 +10,9 @@ namespace Tim.Manager.Db.Data.Configurations
         {
             builder.ToTable("PassItems");
 
+            builder.HasKey(i => i.Id).HasName("PK_PassItem");
+
+
             builder.Property(i => i.Name)
                 .IsRequired()
                 .HasColumnType("nvarchar(100)");
@@ -45,7 +48,8 @@ namespace Tim.Manager.Db.Data.Configurations
             builder.HasIndex(i => new { i.UserId, i.Name })
                 .HasName("IDX_PASS_ITEM_USER_ID_AND_NAME");
 
-            builder.HasKey(i => new { i.UserId, i.Name });
+            builder.HasIndex(i => new { i.UserId, i.Name })
+                .IsUnique();
         }
     }
 }
