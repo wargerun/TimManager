@@ -14,5 +14,6 @@ namespace Tim.Manager.Db.Repositories.PassItems
         Task<PassItem> GetPassItemAsync(int id);
 
         Task UpdateAsync(PassItem newPassItem);
+        Task DeleteAsync(int id);
     }
 }
