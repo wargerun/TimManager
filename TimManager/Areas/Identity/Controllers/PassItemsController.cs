@@ -26,6 +26,7 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
         }
 
         // GET: Identity/PassItems
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
@@ -34,9 +35,9 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
         }
 
         // GET: Identity/PassItems/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            //ViewData["UserId"] = new SelectList(_passItemRepository.Users, "Id", "Id");
             return View();
         }
 
@@ -61,7 +62,7 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch (System.Exception ex)                                   
+                catch (System.Exception ex)
                 {
                     ModelState.AddModelError(ex.Data[PassItemRepository.ItemPropertyKey]?.ToString(), $"Unable to save changes. {ex.Message}.");
                 }
@@ -69,116 +70,25 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
 
             return View(newPassItem);
         }
-        /*
-         *            
 
-      // GET: Identity/PassItems/Details/5
-      public async Task<IActionResult> Details(string id)
-      {
-          if (id == null)
-          {
-              return NotFound();
-          }
+        // GET: Identity/PassItems/Details/5
+        [HttpGet]
+        public async Task<IActionResult> Details(string name)
+        {
+            if (name == null)
+            {
+                return NotFound();
+            }
 
-          var passItem = await _passItemRepository.PassItems
-              .Include(p => p.User)
-              .FirstOrDefaultAsync(m => m.UserId == id);
-          if (passItem == null)
-          {
-              return NotFound();
-          }
+            IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
+            PassItem passItem = await _passItemRepository.GetPassItemAsync(user.Id, name);
 
-          return View(passItem);
-      }
-         * 
-      // GET: Identity/PassItems/Edit/5
-      public async Task<IActionResult> Edit(string id)
-      {
-          if (id == null)
-          {
-              return NotFound();
-          }
+            if (passItem == null)
+            {
+                return NotFound();
+            }
 
-          var passItem = await _passItemRepository.PassItems.FindAsync(id);
-          if (passItem == null)
-          {
-              return NotFound();
-          }
-          ViewData["UserId"] = new SelectList(_passItemRepository.Users, "Id", "Id", passItem.UserId);
-          return View(passItem);
-      }
-
-      // POST: Identity/PassItems/Edit/5
-      // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-      // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Edit(string id, [Bind("UserId,Name,UserName,Password,Uri,Created,CreatedBy,Discription")] PassItem passItem)
-      {
-          if (id != passItem.UserId)
-          {
-              return NotFound();
-          }
-
-          if (ModelState.IsValid)
-          {
-              try
-              {
-                  _passItemRepository.Update(passItem);
-                  await _passItemRepository.SaveChangesAsync();
-              }
-              catch (DbUpdateConcurrencyException)
-              {
-                  if (!PassItemExists(passItem.UserId))
-                  {
-                      return NotFound();
-                  }
-                  else
-                  {
-                      throw;
-                  }
-              }
-              return RedirectToAction(nameof(Index));
-          }
-          ViewData["UserId"] = new SelectList(_passItemRepository.Users, "Id", "Id", passItem.UserId);
-          return View(passItem);
-      }
-
-      // GET: Identity/PassItems/Delete/5
-      public async Task<IActionResult> Delete(string id)
-      {
-          if (id == null)
-          {
-              return NotFound();
-          }
-
-          var passItem = await _passItemRepository.PassItems
-              .Include(p => p.User)
-              .FirstOrDefaultAsync(m => m.UserId == id);
-          if (passItem == null)
-          {
-              return NotFound();
-          }
-
-          return View(passItem);
-      }
-
-      // POST: Identity/PassItems/Delete/5
-      [HttpPost, ActionName("Delete")]
-      [ValidateAntiForgeryToken]
-      public async Task<IActionResult> DeleteConfirmed(string id)
-      {
-          var passItem = await _passItemRepository.PassItems.FindAsync(id);
-          _passItemRepository.PassItems.Remove(passItem);
-          await _passItemRepository.SaveChangesAsync();
-          return RedirectToAction(nameof(Index));
-      }
-
-      private bool PassItemExists(string id)
-      {
-          return _passItemRepository.PassItems.Any(e => e.UserId == id);
-      }
-
-      */
+            return View(passItem);
+        }
     }
 }
