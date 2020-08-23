@@ -7,6 +7,9 @@ namespace Tim.Manager.Db.Entities
     public class PassItem
     {
         [Required]
+        public int Id { get; set; }
+
+        [Required]
         [StringLength(450)]
         public string UserId { get; set; }
 
