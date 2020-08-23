@@ -142,6 +142,37 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
             return View(newPassItem);
         }
 
+        // GET: Identity/PassItems/Delete/5
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            throwIfNotAuthenticated();
+
+            PassItem passItem = await getPassItem(id);
+
+            if (passItem == null)
+            {
+                return NotFound();
+            }
+
+            return View(passItem);
+        }
+
+        // POST: Identity/PassItems/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _passItemRepository.DeleteAsync(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private void throwIfNotAuthenticated()
         {
             if ((HttpContext.User == null) || !HttpContext.User.Identity.IsAuthenticated)

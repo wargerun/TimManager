@@ -74,10 +74,15 @@ namespace Tim.Manager.Db.Repositories.PassItems
             _context.PassItems.Update(passItemDb);
 
             await _context.SaveChangesAsync();
+        } 
+
+        public async Task DeleteAsync(int id)
+        {
+            PassItem passItemDb = await GetPassItemAsync(id);
+            _context.PassItems.Remove(passItemDb);
+            await _context.SaveChangesAsync();
         }
 
         private Task<bool> PassItemExistAsync(string userId, string name) => _context.PassItems.AnyAsync(e => e.UserId == userId && e.Name == name);
-
-        private Task<bool> PassItemExistAsync(int id) => _context.PassItems.AnyAsync(e => e.Id == id);
     }
 }
