@@ -73,3 +73,181 @@ body {
 .font-mono {
     font-family: Courier;
 }
+
+
+
+/* 
+ -----------------------------Start Font-size-----------------------------
+*/.font-size-10 {
+    font-size: 10px;
+}
+
+.font-size-11 {
+    font-size: 10px;
+}
+
+.font-size-112 {
+    font-size: 112px;
+}
+
+.font-size-13{
+    font-size: 13px;
+}
+/* 
+ -----------------------------End Font-size-----------------------------
+*/
+
+
+
+/* 
+ -----------------------------Start Cursors-----------------------------
+*/
+.cursor-alias {
+    cursor: alias;
+}
+
+.cursor-all-scroll {
+    cursor: all-scroll;
+}
+
+.cursor-auto {
+    cursor: auto;
+}
+
+.cursor-cell {
+    cursor: cell;
+}
+
+.cursor-context-menu {
+    cursor: context-menu;
+}
+
+.cursor-col-resize {
+    cursor: col-resize;
+}
+
+.cursor-copy {
+    cursor: copy;
+}
+
+.cursor-crosshair {
+    cursor: crosshair;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+.cursor-e-resize {
+    cursor: e-resize;
+}
+
+.cursor-ew-resize {
+    cursor: ew-resize;
+}
+
+.cursor-grab {
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+.cursor-grabbing {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.cursor-help {
+    cursor: help;
+}
+
+.cursor-move {
+    cursor: move;
+}
+
+.cursor-n-resize {
+    cursor: n-resize;
+}
+
+.cursor-ne-resize {
+    cursor: ne-resize;
+}
+
+.cursor-nesw-resize {
+    cursor: nesw-resize;
+}
+
+.cursor-ns-resize {
+    cursor: ns-resize;
+}
+
+.cursor-nw-resize {
+    cursor: nw-resize;
+}
+
+.cursor-nwse-resize {
+    cursor: nwse-resize;
+}
+
+.cursor-no-drop {
+    cursor: no-drop;
+}
+
+.cursor-none {
+    cursor: none;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-progress {
+    cursor: progress;
+}
+
+.cursor-row-resize {
+    cursor: row-resize;
+}
+
+.cursor-s-resize {
+    cursor: s-resize;
+}
+
+.cursor-se-resize {
+    cursor: se-resize;
+}
+
+.cursor-sw-resize {
+    cursor: sw-resize;
+}
+
+.cursor-text {
+    cursor: text;
+}
+
+.cursor-w-resize {
+    cursor: w-resize;
+}
+
+.cursor-wait {
+    cursor: wait;
+}
+
+.cursor-zoom-in {
+    cursor: zoom-in;
+}
+
+.cursor-zoom-out {
+    cursor: zoom-out;
+}
+/* 
+ -----------------------------End Cursors-----------------------------
+*/
+
+.btn-copy {
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}

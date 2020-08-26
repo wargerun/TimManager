@@ -42,13 +42,13 @@
         <label asp-for="Password" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <div class="input-group">
-                <input asp-for="Password" id="InputPassword" class="form-control font-mono" placeholder="Password" type="password">
+                <input asp-for="Password" id="InputPassword" class="form-control font-mono" placeholder="Password" type="password" autocomplete="off">
                 <span class="input-group-btn">
                     @await Html.PartialAsync("PasswordGenerateViewPartial")
                 </span>
             </div>
 
-            @await Html.PartialAsync("PasswordVisibilityViewPartial")
+            <label id="CheckBoxPasswordVisibility" class="my-2"><input type="checkbox" onclick="showPassword()" id="InputCheckboxShowPassword"> Show Password</label>
             <div><span asp-validation-for="Password" class="text-danger"></span></div>
         </div>
     </div>
@@ -73,3 +73,9 @@
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>
 </form>
+
+@section Scripts
+{
+    @await Html.PartialAsync("PasswordVisibilityPartialScripts")
+    @await Html.PartialAsync("PasswordGeneratePartialScripts")
+}
