@@ -14,15 +14,14 @@ namespace Tim.Manager.Db.Entities
         public string UserId { get; set; }
 
         [Required]
-        [StringLength(450, MinimumLength = 8)]
+        [MaxLength(450)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 8)]
+        [MaxLength(100)]
         public string UserName { get; set; }
                 
         [Required]
-        [MinLength(8)] 
         public string Password { get; set; }
 
         public Uri Uri { get; set; }

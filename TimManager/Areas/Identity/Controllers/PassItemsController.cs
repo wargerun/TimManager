@@ -73,25 +73,11 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
             return View(newPassItem);
         }
 
-        // GET: Identity/PassItems/Details/5
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
-        {
-            PassItem passItem = await getPassItem(id);
-
-            if (passItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(passItem);
-        }
-
         // GET: Identity/PassItems/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            PassItem passItem = await getPassItem(id);
+            PassItem passItem = await GetPassItem(id);
 
             if (passItem == null)
             {
@@ -101,7 +87,8 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
             return View(passItem);
         }
 
-        private async Task<PassItem> getPassItem(int id)
+        [HttpGet]
+        public async Task<PassItem> GetPassItem(int id)
         {
             if (id == 0)
             {
@@ -131,7 +118,7 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
                     throwIfNotAuthenticated();
 
                     await _passItemRepository.UpdateAsync(newPassItem);
-                    return RedirectToAction(nameof(Details), new { id = newPassItem.Id });
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -153,7 +140,7 @@ namespace TimManager.Areas.Identity.Controllers.PassManager
 
             throwIfNotAuthenticated();
 
-            PassItem passItem = await getPassItem(id);
+            PassItem passItem = await GetPassItem(id);
 
             if (passItem == null)
             {
