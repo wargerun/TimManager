@@ -21,3 +21,38 @@
         }
     }
 }
+
+let btnCopyElements = document.querySelectorAll('.btn-copy');
+const defaultTooltip = 'Copy to clickboard';
+const styleForAnimation = 'btn-copy-after';
+
+let showNotifyCopied = (element) => {
+    // remove old all tooltip
+    element.querySelectorAll('.' + styleForAnimation).forEach(item => {
+        item.remove();
+    });
+
+    let divElement = document.createElement('span')
+    divElement.textContent = 'Copied!';
+    divElement.classList.add(styleForAnimation);
+
+    element.appendChild(divElement);
+
+    setTimeout(function () {
+       divElement.remove();
+    }, 2000);
+}
+
+btnCopyElements.forEach(element => {
+    element.addEventListener('click', eventElement => {
+        showNotifyCopied(element);
+        let valueForCopy = element.getAttribute('data-itemValue');
+
+        if (!valueForCopy) {
+            valueForCopy = element.innerText;
+        }
+
+        const toClickboard = copyToClipboard(valueForCopy);
+        console.log('Copied: ' + valueForCopy);
+    });
+});

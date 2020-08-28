@@ -22,10 +22,16 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(item.Name, "Details", new { id = item.Id }, new { @class = "" })</td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-outline-info btn-show-modal-details" data-toggle="modal" data-itemId="@item.Id" data-target="#myModal">
+                                @item.Name
+                            </button>
+                        </div>
+                    </td>
 
                     <td>
-                        <div class="btn-copy" onclick="copyToClipboard('@item.UserName');">
+                        <div class="btn-copy">
                             @Html.DisplayFor(modelItem => item.UserName)
                         </div>
                     </td>
@@ -35,7 +41,9 @@
                     </td>
 
                     <td>
-                        <div class="PasswordCopyToClipboardById btn-copy" data-itemId="@item.Id">************</div>
+                        <div class="PasswordCopyToClipboardById btn-copy-link" data-itemId="@item.Id" title="Copy to clickboard">
+                            ************
+                        </div>
                     </td>
 
                     <td>@Html.DisplayFor(modelItem => item.Created)</td>
@@ -45,17 +53,211 @@
     </table>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleName">Modal title</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a id="modalPassItemEdit">Edit</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a id="modalPassItemDelete">Delete</a>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">
+                        @Html.DisplayNameFor(model => model.Name):
+                    </label>
+
+                    <div class="col-sm-10">
+                        <div id="modalPassItemName" class="btn-copy">
+                            <!--Name-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.UserName):</label>
+                    <div class="col-sm-10">
+                        <div id="modalPassItemUserName" class="btn-copy">
+                            <!--UserName-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Password):</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <!--Password-->
+                            <div id="modalPassItemPassword" class="PasswordCopyToClipboardById form-control btn-copy-link">
+                                ************
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Uri):</label>
+                    <div class="col-sm-10">
+                        <a id="modalPassItemUri" target="_blank" rel="noopener noreferrer" href="#">
+                            <!--Uri-->
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Created):</label>
+                    <div class="col-sm-10">
+                        <div id="modalPassItemCreated" class="btn-copy">
+                            <!--Created-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Modified):</label>
+                    <div class="col-sm-10">
+                        <div id="modalPassItemModified" class="btn-copy">
+                            <!--Modified-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Description):</label>
+                    <div class="col-sm-10">
+                        <!--<div id="modalPassItemDescription" class="btn-copy form-control" readonly>
+                        </div>-->
+                        <!--Description-->
+
+                        <ul id="modalPassItemDescription" class="list-group list-group-flush">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
     <script type="text/javascript">
-        var passwordCopyToClipboardById = document.querySelectorAll(".PasswordCopyToClipboardById");
+        const modalPassItemEditElm = document.getElementById("modalPassItemEdit");
+        const modalPassItemDeleteElm = document.getElementById("modalPassItemDelete");
+
+        const modalTitleNameElm = document.getElementById("modalTitleName");
+        const modalPassItemNameElm = document.getElementById("modalPassItemName");
+        const modalPassItemUserNameElm = document.getElementById("modalPassItemUserName");
+        const modalPassItemPasswordElm = document.getElementById("modalPassItemPassword");
+        const modalPassItemUriElm = document.getElementById("modalPassItemUri");
+        const modalPassItemCreatedElm = document.getElementById("modalPassItemCreated");
+        const modalPassItemModifiedElm = document.getElementById("modalPassItemModified");
+        const modalPassItemDescriptionElm = document.getElementById("modalPassItemDescription");
+
+        let btnShowModalDetailsElements = document.querySelectorAll(".btn-show-modal-details");
+
+        let handleGetPassItemMethod = (passItem) => {
+            //console.log('Success:', passItem);
+
+            modalTitleNameElm.innerHTML = null;
+            modalPassItemNameElm.innerHTML = null;
+            modalPassItemUserNameElm.innerHTML = null;
+            modalPassItemPasswordElm.removeAttribute('data-itemId');
+            modalPassItemUriElm.innerHTML = null;
+            modalPassItemCreatedElm.innerHTML = null;
+            modalPassItemModifiedElm.innerHTML = null;
+            modalPassItemDescriptionElm.innerHTML = null;
+
+            if (passItem) {
+                modalTitleNameElm.innerText = passItem.name;
+                modalPassItemNameElm.innerText = passItem.name;
+                modalPassItemUserNameElm.innerText = passItem.userName;
+
+                modalPassItemPasswordElm.setAttribute('data-itemId', passItem.id);
+
+                modalPassItemUriElm.href = passItem.uri;
+                modalPassItemUriElm.innerText = passItem.uri;
+                modalPassItemCreatedElm.innerText = passItem.created;
+                modalPassItemModifiedElm.innerText = passItem.modified;
+
+                if (passItem.description) {
+                    passItem.description.split(/\n/).forEach(item => {
+                        let li = document.createElement("li");
+                        li.className = 'btn-copy list-group-item';
+                        li.textContent = item;
+                        li.onclick = function () {
+                            showNotifyCopied(li);
+                            copyToClipboard(item);
+                            return false;
+                        }
+
+                        modalPassItemDescriptionElm.appendChild(li);
+                    });
+                }
+
+                modalPassItemEditElm.href = document.location + '/Edit/' + passItem.id;
+                modalPassItemDeleteElm.href = document.location + '/Delete/' + passItem.id;
+            }
+        }
+
+        let ajaxGetPassItem = (itemId, handlePassItem) => {
+            fetch('PassItems/GetPassItem?id=' + itemId, {
+                method: 'GET',
+                //credentials: 'same-origin',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'contentType': "application/json; charset=utf-8",
+                }
+            })
+                .then(data => {
+                    return data.json();
+                })
+                .then(jsonPassItem => {
+                    handlePassItem(jsonPassItem);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        btnShowModalDetailsElements.forEach(item => {
+            item.addEventListener("click", (itemListener) => {
+                let itemId = Number(itemListener.target.getAttribute("data-itemId"));
+                console.log('clicked on itemid: ' + itemId + '  ' + typeof itemId);
+                modalTitleNameElm.innerText = 'Loading..';
+
+                ajaxGetPassItem(itemId, handleGetPassItemMethod);
+            });
+        });
+
+        let passwordCopyToClipboardById = document.querySelectorAll(".PasswordCopyToClipboardById");
 
         passwordCopyToClipboardById.forEach(item => {
             item.addEventListener("click", () => {
                 let itemId = item.getAttribute("data-itemId");
-                const toClickboard = copyToClipboard(itemId);
-                console.log(itemId);
+
+                ajaxGetPassItem(itemId, passItem => {
+                    const toClickboard = copyToClipboard(passItem.password);
+                    console.log(passItem.password + ' | ' + toClickboard);
+                });
             });
-        })
+        });
     </script>
 }
