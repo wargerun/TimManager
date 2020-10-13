@@ -76,6 +76,6 @@
 
 @section Scripts
 {
-    @await Html.PartialAsync("PasswordVisibilityPartialScripts")
-    @await Html.PartialAsync("PasswordGeneratePartialScripts")
+    <script type="text/javascript" src="@Url.Content("/js/PassItems/PasswordVisibility.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/js/PassItems/PasswordGenerate.js")"></script>
 }
