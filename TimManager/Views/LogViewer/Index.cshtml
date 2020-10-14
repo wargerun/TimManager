@@ -1,0 +1,60 @@
+﻿@using TimManager.Models.LogViewer
+@model LogViewerViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Index", "LogViewer", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <dl>
+        <dt>
+            <label for="FileUpload_FormFile">File</label>
+        </dt>
+        <dd>
+            <input id="FileUpload_FormFile" 
+                   type="file"
+                   accept=".txt"
+                   name="uploadedFile"/>
+        </dd>
+    </dl>
+    <input type="submit" value="Import"/>
+}
+
+@if (Model.LogItems.Count > 0)
+{
+    <hr/>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>DateTime</th>
+                <th>ThreadName</th>
+                <th>LogEvent</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.LogItems)
+            {
+                <tr>
+                    <td>
+                        <div>@item.DateTime</div>
+                    </td>
+
+                    <td>
+                        <div>@item.ThreadName</div>
+                    </td>
+
+                    <td>
+                        <div>@item.LogEvent</div>
+                    </td>
+
+                    <td>
+                        <div>@item.Message</div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

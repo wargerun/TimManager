@@ -1,15 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using System.Collections.Generic;
+using System.Security.Authentication;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tim.Manager.Db.Entities;
 using Tim.Manager.Db.Repositories.PassItems;
-using System;
-using System.Security.Authentication;
 
-namespace TimManager.Areas.Identity.Controllers.PassManager
+namespace TimManager.Areas.Identity.Controllers
 {
     [Area("Identity")]
     [Authorize]
