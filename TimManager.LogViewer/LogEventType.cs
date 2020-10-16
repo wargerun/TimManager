@@ -1,4 +1,4 @@
-﻿namespace TimManager.Models.LogViewer
+﻿namespace TimManager.LogViewer
 {
     public enum LogEvent
     {

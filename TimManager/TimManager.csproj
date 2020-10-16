@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tim.Manager.Db\Tim.Manager.Db.csproj" />
+    <ProjectReference Include="..\TimManager.LogViewer\TimManager.LogViewer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
