@@ -3,13 +3,14 @@
     ViewBag.Title = "Index";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="container">
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
 
-<div class="table-responsive">
-    <table class="table">
-        <thead>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Name)</th>
                 <th>@Html.DisplayNameFor(model => model.UserName)</th>
@@ -17,8 +18,8 @@
                 <th>@Html.DisplayNameFor(model => model.Password)</th>
                 <th>@Html.DisplayNameFor(model => model.Created)</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach (var item in Model)
             {
                 <tr>
@@ -49,8 +50,9 @@
                     <td>@Html.DisplayFor(modelItem => item.Created)</td>
                 </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -158,5 +160,5 @@
 
 @section Scripts
 {
-       <script type="text/javascript" src="@Url.Content("/js/PassItems/PassItems.Index.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/js/PassItems/PassItems.Index.js")"></script>
 }

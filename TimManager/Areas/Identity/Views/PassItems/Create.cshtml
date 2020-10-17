@@ -6,73 +6,78 @@
     ViewBag.Title = "Create";
 }
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">PassItem</li>
+<div class="container">
 
-        <li class="breadcrumb-item">
-            <a asp-action="Index">Back to List</a>
-        </li>
-    </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">PassItem</li>
 
-<hr />
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="User.Id" />
+            <li class="breadcrumb-item">
+                <a asp-action="Index">Back to List</a>
+            </li>
+        </ol>
+    </nav>
 
-    <div class="form-group row">
-        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+    <hr/>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="User.Id"/>
 
-        <div class="col-sm-10">
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-    </div>
+        <div class="form-group row">
+            <label asp-for="Name" class="col-sm-2 col-form-label"></label>
 
-    <div class="form-group row">
-        <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="UserName" class="form-control" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label asp-for="Password" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <div class="input-group">
-                <input asp-for="Password" id="InputPassword" class="form-control font-mono" placeholder="Password" type="password" autocomplete="off">
-                <span class="input-group-btn">
-                    @await Html.PartialAsync("PasswordGenerateViewPartial")
-                </span>
+            <div class="col-sm-10">
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-
-            <label id="CheckBoxPasswordVisibility" class="my-2"><input type="checkbox" onclick="showPassword()" id="InputCheckboxShowPassword"> Show Password</label>
-            <div><span asp-validation-for="Password" class="text-danger"></span></div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label asp-for="Uri" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Uri" class="form-control" />
-            <span asp-validation-for="Uri" class="text-danger"></span>
+        <div class="form-group row">
+            <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="UserName" class="form-control"/>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <textarea class="form-control" name="Description" rows="3"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+        <div class="form-group row">
+            <label asp-for="Password" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input asp-for="Password" id="InputPassword" class="form-control font-mono" placeholder="Password" type="password" autocomplete="off">
+                    <span class="input-group-btn">
+                        @await Html.PartialAsync("PasswordGenerateViewPartial")
+                    </span>
+                </div>
+
+                <label id="CheckBoxPasswordVisibility" class="my-2"><input type="checkbox" onclick="showPassword()" id="InputCheckboxShowPassword"> Show Password</label>
+                <div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-</form>
+        <div class="form-group row">
+            <label asp-for="Uri" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Uri" class="form-control"/>
+                <span asp-validation-for="Uri" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <textarea class="form-control" name="Description" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>
 
 @section Scripts
 {
