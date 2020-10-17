@@ -288,3 +288,7 @@ body {
     .btn-copy .btn-copy-after {
         visibility: visible;
     }
+
+.top-15 {
+    top: 15px;
+}

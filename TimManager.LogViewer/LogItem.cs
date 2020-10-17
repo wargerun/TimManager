@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime;
+using System.Text;
 
 namespace TimManager.LogViewer
 {
@@ -9,8 +11,15 @@ namespace TimManager.LogViewer
         public LogEvent LogEvent { get; set; }
         public string Callsite { get; set; }
         public string Message { get; set; }
-        
-        // public Exception Exception { get; }
 
+        public StringBuilder FullLog { get; } 
+
+        public LogItem(string line)
+        {
+            FullLog = new StringBuilder();
+            FullLog.AppendLine(line);
+        }
+
+        public override string ToString() => FullLog.ToString();
     }
 }
