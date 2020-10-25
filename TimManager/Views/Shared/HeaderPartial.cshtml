@@ -1,5 +1,9 @@
-﻿@{ 
-    var isSignedIn = false;
+﻿@using Tim.Manager.Db.Repositories.Identities;
+
+@inject IUserManagerRepository manager;
+
+@{ 
+    var isSignedIn = manager.IsSignedIn(User);
 }
 
 <header>

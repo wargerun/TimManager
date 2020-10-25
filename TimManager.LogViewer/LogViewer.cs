@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using TimManager.LogViewer.SearchLog;
 
 namespace TimManager.LogViewer
@@ -16,7 +15,7 @@ namespace TimManager.LogViewer
             using (var streamReader = new StreamReader(openReadStream))
             {
                 string line;
-                
+
                 while ((line = await streamReader.ReadLineAsync()) != null)
                 {
                     LogItem logItem = builderLogItem.GetLogItem(line);
